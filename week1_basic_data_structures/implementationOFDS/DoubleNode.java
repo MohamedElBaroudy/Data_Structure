@@ -1,39 +1,39 @@
-public class DoubleNode {
-    private int value;
-    private DoubleNode next;
-    private DoubleNode prev;
+public class DoubleNode<T> {
+    private T value;
+    private DoubleNode<T> next;
+    private DoubleNode<T> prev;
 
-    public DoubleNode(int value){
+    public DoubleNode(T value){
         this.value = value;
         this.next = null;
         this.prev = null;
     }
 
-    public DoubleNode getNext() {
+    public DoubleNode<T> getNext() {
         return next;
     }
 
-    public DoubleNode getPrev() {
+    public DoubleNode<T> getPrev() {
         return prev;
     }
 
-    public int getValue() {
+    public T getValue() {
         return value;
     }
 
-    public void setNext(DoubleNode next) {
+    public void setNext(DoubleNode<T> next) {
         this.next = next;
     }
 
-    public void setPrev(DoubleNode prev) {
+    public void setPrev(DoubleNode<T> prev) {
         this.prev = prev;
     }
 
-    public void setValue(int value) {
+    public void setValue(T value) {
         this.value = value;
     }
 
-    public boolean equals(DoubleNode node) {
+    public boolean equals(DoubleNode<T> node) {
         return this.value == node.getValue() &&
          this.next == node.next &&
           this.prev == node.prev;

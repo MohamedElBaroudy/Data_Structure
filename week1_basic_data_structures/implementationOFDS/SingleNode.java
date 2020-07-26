@@ -1,33 +1,33 @@
 /**
  * SingleNode
  */
-public class SingleNode {
+public class SingleNode <T>{
 
-    private int value;
-    private SingleNode next;
+    private T value;
+    private SingleNode<T> next;
 
-    public SingleNode(int value){
+    public SingleNode(T value){
         this.value = value;
         this.next = null;
     }
 
-    public int getValue() {
+    public T getValue() {
         return value;
     }
 
-    public void setValue(int value) {
+    public void setValue(T value) {
         this.value = value;
     }
 
-    public SingleNode getNext() {
+    public SingleNode<T> getNext() {
         return next;
     }
 
-    public void setNext(SingleNode next) {
+    public void setNext(SingleNode<T> next) {
         this.next = next;
     }
 
-    public boolean equals(SingleNode node) {
+    public boolean equals(SingleNode<T> node) {
         return this.value == node.getValue() && this.next == node.next;
     }
 }

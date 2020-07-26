@@ -1,24 +1,23 @@
-import java.lang.Exception;
 /**
  * DolaLinkedList
  */
-public class SingleLinkedList {
-    private SingleNode head;
-    private SingleNode tail;
+public class SingleLinkedList<T> {
+    private SingleNode<T> head;
+    private SingleNode<T> tail;
     
     public SingleLinkedList(){
         this.head = null;
         this.tail = null;
     }
 
-    public SingleLinkedList(int val) {
-        SingleNode node = new SingleNode(val);
+    public SingleLinkedList(T val) {
+        SingleNode<T> node = new SingleNode<T>(val);
         this.head = node;
         this.tail = node;
     }
 
-    public void pushFront(int val) {
-        SingleNode node = new SingleNode(val);
+    public void pushFront(T val) {
+        SingleNode<T> node = new SingleNode<T>(val);
         node.setNext(this.head);
         this.head = node;
         if (this.tail == null) {
@@ -26,14 +25,30 @@ public class SingleLinkedList {
         }
     }
 
-    public void pushBack(int val) {
-        SingleNode node = new SingleNode(val);
+    public void pushBack(T val) {
+        SingleNode<T> node = new SingleNode<T>(val);
         if (this.tail == null) {
             this.head = node;
             this.tail = node;
         }else {
             this.tail.setNext(node);
             this.tail = node;
+        }
+    }
+
+    public Response<T> topBack(){
+        if (this.tail != null) {
+            return new Response<T>("Success", this.tail.getValue());
+        }else {
+            return new Response<T>("Error");
+        }
+    }
+
+    public Response<T> topFront(){
+        if (this.head != null) {
+            return new Response<T>("Success", this.head.getValue());
+        }else {
+            return new Response<T>("Error");
         }
     }
 
@@ -57,7 +72,7 @@ public class SingleLinkedList {
             this.tail = null;
             return;
         }
-        SingleNode node = this.head;
+        SingleNode<T> node = this.head;
     
         while (node.getNext().getNext() != null) {
             node = node.getNext();
@@ -67,8 +82,8 @@ public class SingleLinkedList {
         this.tail = node;
     }
 
-    public void addAfter(SingleNode node, int val) {
-        SingleNode newNode = new SingleNode(val);
+    public void addAfter(SingleNode<T> node, T val) {
+        SingleNode<T> newNode = new SingleNode<T>(val);
         newNode.setNext(node.getNext());
         node.setNext(newNode);
         if (this.tail.equals(node)) {
@@ -76,27 +91,27 @@ public class SingleLinkedList {
         }
     }
 
-    public void addBefore(SingleNode node, int val){
+    public void addBefore(SingleNode<T> node, T val){
         if (this.head.equals(node)) {
             this.pushFront(val);
             return;
         }
-        SingleNode currentNode = this.head;
+        SingleNode<T> currentNode = this.head;
         while (currentNode.getNext() != node) {
             currentNode = currentNode.getNext();
         }
 
-        SingleNode newNode = new SingleNode(val);
+        SingleNode<T> newNode = new SingleNode<T>(val);
         newNode.setNext(currentNode.getNext());
         currentNode.setNext(newNode);
     }
 
-    public SingleNode find(int val) {
+    public SingleNode<T> find(T val) {
         if (this.head == null) {
             return null;
         }
 
-        SingleNode node = this.head;
+        SingleNode<T> node = this.head;
         while (node != null) {
             if (node.getValue() == val) {
                 return node;
@@ -106,7 +121,7 @@ public class SingleLinkedList {
         return null;
     }
 
-    public void erase(int val){
+    public void erase(T val){
         if (this.head == null) {
             return;
         }
@@ -125,7 +140,7 @@ public class SingleLinkedList {
             return;
         }
 
-        SingleNode node = this.head;
+        SingleNode<T> node = this.head;
         while (node.getNext() != null) {
             if (node.getNext().getValue() == val) {
                 if (node.getNext().equals(this.tail)) {
@@ -140,28 +155,5 @@ public class SingleLinkedList {
 
     public boolean isEmpty() {
         return this.head == null;
-    }
-
-    public static void main(String[] args) {
-        SingleLinkedList linkedList = new SingleLinkedList();
-        linkedList.pushFront(1);
-        linkedList.pushFront(2);
-        linkedList.pushFront(3);
-        // linkedList.popFront();
-        linkedList.pushFront(4);
-        linkedList.pushBack(5);
-        // linkedList.popBack();
-        linkedList.addAfter(linkedList.find(5), 6);
-        linkedList.addBefore(linkedList.find(4), 0);
-        linkedList.addBefore(linkedList.find(2), -2);
-        linkedList.erase(0);
-        linkedList.erase(6);
-        linkedList.erase(-2);
-        linkedList.erase(4);
-        linkedList.erase(2);
-        linkedList.erase(3);
-        linkedList.erase(1);
-        linkedList.erase(5);
-        System.out.println("hi");
     }
 }

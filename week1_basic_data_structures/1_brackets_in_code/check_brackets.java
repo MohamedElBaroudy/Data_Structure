@@ -3,6 +3,8 @@ import java.io.InputStreamReader;
 import java.io.IOException;
 import java.util.Stack;
 
+import javax.swing.text.Position;
+
 class Bracket {
     Bracket(char type, int position) {
         this.type = type;
@@ -30,18 +32,39 @@ class check_brackets {
         String text = reader.readLine();
 
         Stack<Bracket> opening_brackets_stack = new Stack<Bracket>();
+        int pos = 0;
         for (int position = 0; position < text.length(); ++position) {
             char next = text.charAt(position);
+            pos++;
 
             if (next == '(' || next == '[' || next == '{') {
                 // Process opening bracket, write your code here
+                opening_brackets_stack.push(new Bracket(next, position));
             }
 
             if (next == ')' || next == ']' || next == '}') {
                 // Process closing bracket, write your code here
+                if (opening_brackets_stack.empty()) {
+                    opening_brackets_stack.push(new Bracket(next, position));
+                    break;
+                }
+                Bracket newBracket = new Bracket(next, position);
+                Bracket curBracket = opening_brackets_stack.pop();
+                boolean match = curBracket.Match(newBracket.type);
+                if (!match){
+                    opening_brackets_stack.push(curBracket);
+                    opening_brackets_stack.push(newBracket);
+                    break;
+                }
             }
         }
 
         // Printing answer, write your code here
+        if (opening_brackets_stack.empty()) {
+            System.out.println("Success");
+        } else {
+            
+            System.out.println(opening_brackets_stack.pop().position+1);
+        }
     }
 }

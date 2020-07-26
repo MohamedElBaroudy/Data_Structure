@@ -1,20 +1,20 @@
-public class DoubleLinkedList {
-    private DoubleNode head;
-    private DoubleNode tail;
+public class DoubleLinkedList<T> {
+    private DoubleNode<T> head;
+    private DoubleNode<T> tail;
 
     public DoubleLinkedList() {
         this.head = null;
         this.tail = null;
     }
 
-    public DoubleLinkedList(int val){
-        DoubleNode node = new DoubleNode(val);
+    public DoubleLinkedList(T val){
+        DoubleNode<T> node = new DoubleNode<T>(val);
         this.head = node;
         this.tail = node;
     }
 
-    public void pushFront(int val){
-        DoubleNode node = new DoubleNode(val);
+    public void pushFront(T val){
+        DoubleNode<T> node = new DoubleNode<T>(val);
         if (this.head == null) {
             this.head = node;
             this.tail = node;  
@@ -23,6 +23,22 @@ public class DoubleLinkedList {
             node.setPrev(null);
             this.head.setPrev(node);
             this.head = node;
+        }
+    }
+
+    public Response<T> topBack(){
+        if (this.tail != null) {
+            return new Response<T>("Success", this.tail.getValue());
+        }else {
+            return new Response<T>("Error");
+        }
+    }
+
+    public Response<T> topFront(){
+        if (this.head != null) {
+            return new Response<T>("Success", this.head.getValue());
+        }else {
+            return new Response<T>("Error");
         }
     }
 
@@ -38,8 +54,8 @@ public class DoubleLinkedList {
         }
     }
 
-    public void pushBack(int val) {
-        DoubleNode node = new DoubleNode(val);
+    public void pushBack(T val) {
+        DoubleNode<T> node = new DoubleNode<T>(val);
         if (this.head == null) {
             this.head = node;
             this.tail = node;
@@ -62,8 +78,8 @@ public class DoubleLinkedList {
         }
     }
 
-    public DoubleNode find(int val){
-        DoubleNode node = this.head;
+    public DoubleNode<T> find(T val){
+        DoubleNode<T> node = this.head;
         while (node != null) {
             if (node.getValue() == val) {
                 return node;
@@ -73,11 +89,11 @@ public class DoubleLinkedList {
         return null;
     }
 
-    public void addAfter(DoubleNode node, int val) {
+    public void addAfter(DoubleNode<T> node, T val) {
         if (node == null) {
             return;
         }
-        DoubleNode newNode = new DoubleNode(val);
+        DoubleNode<T> newNode = new DoubleNode<T>(val);
         if (this.tail.equals(node)) {
             this.pushBack(val);
             return;
@@ -88,11 +104,11 @@ public class DoubleLinkedList {
         newNode.setPrev(node);
     }
 
-    public void addBefore(DoubleNode node, int val) {
+    public void addBefore(DoubleNode<T> node, T val) {
         if (node == null) {
             return;
         }
-        DoubleNode newNode = new DoubleNode(val);
+        DoubleNode<T> newNode = new DoubleNode<T>(val);
         if (this.head.equals(node)) {
             this.pushFront(val);
             return;
@@ -103,7 +119,7 @@ public class DoubleLinkedList {
         node.setPrev(newNode);
     }
 
-    public void erase(int val){
+    public void erase(T val){
         if (this.head == null) {
             return;
         }
@@ -116,7 +132,7 @@ public class DoubleLinkedList {
             this.popFront();
             return;
         }
-        DoubleNode node = this.head;
+        DoubleNode<T> node = this.head;
         while (node != null) {
             if (node.getValue() ==val){
                 break;
@@ -131,33 +147,7 @@ public class DoubleLinkedList {
         node.getNext().setPrev(node.getPrev());
     }
 
-    public static void main(String[] args) {
-        DoubleLinkedList linkedList = new DoubleLinkedList();
-
-        linkedList.pushFront(1);
-        linkedList.pushFront(2);
-        linkedList.pushFront(3);
-        linkedList.popFront();
-        linkedList.popFront();
-        linkedList.popFront();
-        linkedList.pushBack(1);
-        linkedList.pushBack(2);
-        linkedList.pushBack(3);
-        // linkedList.popBack();
-        // linkedList.popBack();
-        // linkedList.popBack();
-        linkedList.addAfter(linkedList.find(3), 4);
-        // linkedList.addAfter(linkedList.find(2), 22);
-        // linkedList.addAfter(linkedList.find(1), 11);
-        linkedList.addAfter(linkedList.find(5), 55);
-        linkedList.addBefore(linkedList.find(1), 0);
-        // linkedList.addBefore(linkedList.find(4), 33);
-        // linkedList.addBefore(linkedList.find(3), 22);
-        linkedList.erase(0);
-        linkedList.erase(4);
-        linkedList.erase(2);
-        linkedList.erase(3);
-        linkedList.erase(1);
-        System.out.println("hi");
+    public boolean isEmpty(){
+        return this.head == null && this.tail == null;
     }
 }
