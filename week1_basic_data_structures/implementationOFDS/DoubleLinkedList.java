@@ -1,16 +1,19 @@
 public class DoubleLinkedList<T> {
     private DoubleNode<T> head;
     private DoubleNode<T> tail;
+    private int size;
 
     public DoubleLinkedList() {
         this.head = null;
         this.tail = null;
+        this.size = 0;
     }
 
     public DoubleLinkedList(T val){
         DoubleNode<T> node = new DoubleNode<T>(val);
         this.head = node;
         this.tail = node;
+        this.size = 1;
     }
 
     public void pushFront(T val){
@@ -24,6 +27,7 @@ public class DoubleLinkedList<T> {
             this.head.setPrev(node);
             this.head = node;
         }
+        this.size++;
     }
 
     public Response<T> topBack(){
@@ -52,6 +56,7 @@ public class DoubleLinkedList<T> {
             this.head = this.head.getNext();
             this.head.setPrev(null);
         }
+        this.size--;
     }
 
     public void pushBack(T val) {
@@ -64,6 +69,7 @@ public class DoubleLinkedList<T> {
             node.setPrev(this.tail);
             this.tail = node;
         }
+        this.size++;
     }
 
     public void popBack() {
@@ -76,6 +82,7 @@ public class DoubleLinkedList<T> {
             this.tail= this.tail.getPrev();
             this.tail.setNext(null);
         }
+        this.size--;
     }
 
     public DoubleNode<T> find(T val){
@@ -102,6 +109,7 @@ public class DoubleLinkedList<T> {
         newNode.setNext(node.getNext());
         node.setNext(newNode);
         newNode.setPrev(node);
+        this.size++;
     }
 
     public void addBefore(DoubleNode<T> node, T val) {
@@ -117,6 +125,7 @@ public class DoubleLinkedList<T> {
         newNode.setPrev(node.getPrev());
         node.getPrev().setNext(newNode);
         node.setPrev(newNode);
+        this.size++;
     }
 
     public void erase(T val){
@@ -126,6 +135,7 @@ public class DoubleLinkedList<T> {
         if (this.head.equals(this.tail) && this.head.getValue() == val){
             this.head = null;
             this.tail = null;
+            this.size--;
             return;
         }
         if (this.head.getValue() == val) {
@@ -145,9 +155,30 @@ public class DoubleLinkedList<T> {
         }
         node.getPrev().setNext(node.getNext());
         node.getNext().setPrev(node.getPrev());
+        this.size--;
+    }
+
+    public Response<T> valueOfIndex(int index){
+        if (index >= this.size) {
+            return new Response<>("failed");
+        }
+        int i = 0;
+        DoubleNode<T> node = this.head;
+        while (node != null) {
+            if (i == index) {
+                return new Response<>("succed", node.getValue());
+            }
+            node = node.getNext();
+            i++;
+        }
+        return new Response<>("failed");
     }
 
     public boolean isEmpty(){
         return this.head == null && this.tail == null;
+    }
+
+    public int length() {
+        return size;
     }
 }
