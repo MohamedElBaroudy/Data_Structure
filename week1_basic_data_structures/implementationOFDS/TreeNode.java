@@ -36,6 +36,7 @@ public class TreeNode<T> {
     }
 
     public void addChild(TreeNode<T> child){
+        child.parent = this;
         this.children.pushBack(child);
     }
 
