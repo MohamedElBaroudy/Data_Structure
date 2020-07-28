@@ -29,4 +29,8 @@ public class Tree<T>{
         }
         return h+1;
     }
+
+    public TreeNode<T> getRoot() {
+        return root;
+    }
 }
