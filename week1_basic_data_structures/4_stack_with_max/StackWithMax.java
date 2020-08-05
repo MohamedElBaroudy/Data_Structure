@@ -2,6 +2,36 @@ import java.util.*;
 import java.io.*;
 
 public class StackWithMax {
+
+    public class Stack {
+        Vector<Integer> vector;
+    
+        public Stack(){
+            this.vector = new Vector<>();
+        }
+    
+        public void push(int val){
+            this.vector.add(val);
+        }
+    
+        public void pop(){
+            if (!vector.isEmpty())
+                this.vector.remove(vector.size()-1);
+        }
+
+        public int max(){
+            return Collections.max(vector);
+        }
+        
+        public int top() {
+            return this.vector.get(vector.size()-1);
+        }
+    
+        public boolean isEmpty(){
+            return this.vector.isEmpty();
+        }
+    }
+
     class FastScanner {
         StringTokenizer tok = new StringTokenizer("");
         BufferedReader in;
@@ -23,7 +53,7 @@ public class StackWithMax {
     public void solve() throws IOException {
         FastScanner scanner = new FastScanner();
         int queries = scanner.nextInt();
-        Stack<Integer> stack = new Stack<Integer>();
+        Stack stack = new Stack();
 
         for (int qi = 0; qi < queries; ++qi) {
             String operation = scanner.next();
@@ -33,7 +63,7 @@ public class StackWithMax {
             } else if ("pop".equals(operation)) {
                 stack.pop();
             } else if ("max".equals(operation)) {
-                System.out.println(Collections.max(stack));
+                System.out.println(stack.max());
             }
         }
     }
