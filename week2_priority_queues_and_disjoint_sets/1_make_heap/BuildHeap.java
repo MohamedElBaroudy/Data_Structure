@@ -7,6 +7,7 @@ import java.util.StringTokenizer;
 public class BuildHeap {
     private int[] data;
     private List<Swap> swaps;
+    private int size;
 
     private FastScanner in;
     private PrintWriter out;
@@ -39,17 +40,64 @@ public class BuildHeap {
       // but in the worst case gives a quadratic number of swaps.
       //
       // TODO: replace by a more efficient implementation
-      for (int i = 0; i < data.length; ++i) {
-        for (int j = i + 1; j < data.length; ++j) {
-          if (data[i] > data[j]) {
-            swaps.add(new Swap(i, j));
-            int tmp = data[i];
-            data[i] = data[j];
-            data[j] = tmp;
-          }
-        }
+      // for (int i = 0; i < data.length; ++i) {
+      //   for (int j = i + 1; j < data.length; ++j) {
+      //     if (data[i] > data[j]) {
+      //       swaps.add(new Swap(i, j));
+      //       int tmp = data[i];
+      //       data[i] = data[j];
+      //       data[j] = tmp;
+      //     }
+      //   }
+      // }
+      this.size = data.length;
+      for (int i = (data.length/2) - 1; i >= 0; i--) {
+        siftDownMine(i);
       }
     }
+
+private void siftDownMine(int index){
+  if (index == this.size) {
+        return;
+  }
+  int leftChildIndex = 2*index + 1;
+  int rightChildIndex = 2*index + 2;
+
+  // in case no children
+  if (leftChildIndex >= size && rightChildIndex >= size) {
+        return;
+  }
+
+  // in case left child only
+  else if (leftChildIndex == size-1) {
+        if (data[leftChildIndex] < data[index]) {
+              swap(leftChildIndex, index);
+              //siftDown(leftChildIndex); // in complete binary tree it will be the last element
+        }
+        else{
+              return;
+        }
+  }
+
+  // in case two children
+  else {
+        if (data[leftChildIndex] < data[index]
+        || data[rightChildIndex] < data[index]) {
+              int lessIndex = (data[leftChildIndex] <= 
+              data[rightChildIndex]) ? leftChildIndex : rightChildIndex;
+
+              swap(index, lessIndex);
+              siftDownMine(lessIndex);
+        }
+  }
+}
+
+    protected void swap( int firstIndex, int secondIndex){
+      swaps.add(new Swap(firstIndex, secondIndex));
+      int temp = data[firstIndex];
+      data[firstIndex] = data[secondIndex];
+      data[secondIndex] = temp;
+}
 
     public void solve() throws IOException {
         in = new FastScanner();
